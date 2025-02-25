@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Stroke Risk Assessment</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2b3355, #4b2155);
+            color: #ffffff;
+        }
+
+        .container {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-wrapper {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        label {
+            color: #a8b3cf;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        select {
+            appearance: none;
+            padding-right: 40px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .result {
+            text-align: center;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Risk level backgrounds */
+        .risk-0-20 { background-color: #28a745; }  /* Green */
+        .risk-21-40 { background-color: #90ee90; } /* Light Green */
+        .risk-41-60 { background-color: #ffa500; } /* Orange */
+        .risk-61-80 { background-color: #ff6b6b; } /* Light Red */
+        .risk-81-100 { background-color: #dc3545; } /* Red */
+
+        .result h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .result p {
+            margin: 10px 0 0;
+        }
+
+        .result-images {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Space between the two images */
+    margin-top: 30px; /* Space between the result text and the first image */
+    align-items: center; /* Center-align the images horizontally */
+    justify-content: center; /* Center-align the images vertically */
+}
+
+.result-image {
+    width: 100%; /* Same width for both images */
+    max-width: 600px; /* Optional: Set a maximum width */
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-image img {
+    width: 100%; /* Ensure the image takes the full width of the container */
+    height: auto; /* Allow the height to adjust based on the aspect ratio */
+    object-fit: contain; /* Ensures the entire image is visible */
+}
+
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            .form-grid, .form-group.full-width {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content-wrapper">
+            <h1>Brain Stroke Risk Assessment</h1>
+            <form method="POST">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" name="gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" name="age" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hypertension">Hypertension</label>
+                        <select id="hypertension" name="hypertension" required>
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="heart_disease">Heart Disease</label>
+                        <select id="heart_disease" name="heart_disease" required>
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ever_married">Ever Married</label>
+                        <select id="ever_married" name="ever_married" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="work_type">Work Type</label>
+                        <select id="work_type" name="work_type" required>
+                            <option value="Private">Private</option>
+                            <option value="Self-employed">Self-employed</option>
+                            <option value="Govt_job">Govt Job</option>
+                            <option value="children">Children</option>
+                            <option value="Never_worked">Never Worked</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Residence_type">Residence Type</label>
+                        <select id="Residence_type" name="Residence_type" required>
+                            <option value="Urban">Urban</option>
+                            <option value="Rural">Rural</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="avg_glucose_level">Average Glucose Level</label>
+                        <input type="number" id="avg_glucose_level" name="avg_glucose_level" step="0.01" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <div>
+                            <label for="bmi">BMI</label>
+                            <input type="number" id="bmi" name="bmi" step="0.01" required>
+                        </div>
+                        <div>
+                            <label for="smoking_status">Smoking Status</label>
+                            <select id="smoking_status" name="smoking_status" required>
+                                <option value="formerly smoked">Formerly Smoked</option>
+                                <option value="never smoked">Never Smoked</option>
+                                <option value="smokes">Smokes</option>
+                                <option value="Unknown">Unknown</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit">Calculate Risk Assessment</button>
+            </form>
+
+            {% if stroke_risk is defined %}
+            <div class="result risk-{% if stroke_risk <= 20 %}0-20
+                     {% elif stroke_risk <= 40 %}21-40
+                     {% elif stroke_risk <= 60 %}41-60
+                     {% elif stroke_risk <= 80 %}61-80
+                     {% else %}81-100{% endif %}">
+                <h2>Stroke Risk Assessment: {{ stroke_risk }}%</h2>
+                <p>{{ precautions }}</p>
+                
+                <div class="result-images">
+                    {% if stroke_risk <= 20 %}
+                    <div class="result-image">
+                        <!-- <img src="/images/img1.1.png" alt="Healthy Brain Visualization"> -->
+                        <img src="{{ url_for('static', filename='images/img1.png') }}" alt="Healthy Brain Visualization">
+                    </div>
+                    <div class="result-image">
+                        <img src="{{ url_for('static', filename='images/img1.1.png') }}" alt="Risk Analysis Chart">
+                    </div>
+                    {% elif stroke_risk <= 40 %}
+                    <div class="result-image">
+                        <img src="{{ url_for('static', filename='images/img2.png') }}" alt="Mild Risk Brain Visualization">
+                    </div>
+                    <div class="result-image">
+                        <img src="{{ url_for('static', filename='images/img2.2.png') }}" alt="Risk Analysis Chart">
+                    </div>
+                    {% elif stroke_risk <= 60 %}
+                    <div class="result-image">
+                        <img src="{{ url_for('static', filename='images/img3.png') }}" alt="Moderate Risk Brain Visualization">
+                    </div>
+                    <div class="result-image">
+                        <img src="{{ url_for('static', filename='images/img3.3.png') }}" alt="Risk Analysis Chart">
+                    </div>
+                    {% elif stroke_risk <= 80 %}
+                    <div class="result-image">
+                        <img src="{{ url_for('static', filename='images/img4.png') }}" alt="High Risk Brain Visualization">
+                    </div>
+                    <div class="result-image">
+                        <img src="{{ url_for('static', filename='images/img4.4.png') }}" alt="Risk Analysis Chart">
+                    </div>
+                    {% else %}
+                    <div class="result-image">
+                        <img src="{{ url_for('static', filename='images/img5.png') }}" alt="Severe Risk Brain Visualization">
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
